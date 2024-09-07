@@ -1,0 +1,28 @@
+mport pandas as pd
+import os
+
+# Directory containing Excel files
+input_directory = 'C:/Users/Intern/Downloads/2000 last update'
+output_directory = 'C:/Users/Intern/Downloads/2000 last update'
+# Ensure output directory exists
+os.makedirs(output_directory, exist_ok=True)
+
+# Loop through each file in the directory
+for file in os.listdir(input_directory):
+    if file.endswith('.xlsx'):
+        # Construct full file path
+        file_path = os.path.join(input_directory, file)
+
+        # Read the first sheet of the Excel file
+        df = pd.read_excel(file_path, sheet_name=0)  # 'sheet_name=0' loads the first sheet
+
+        # Remove the .xlsx extension from the file name
+        base_file_name = os.path.splitext(file)[0]
+
+        # Create output text file path
+        output_file = os.path.join(output_directory, f"{base_file_name}.txt")
+
+        # Write DataFrame to a text file
+        df.to_csv(output_file, sep='\t', index=False, header=True)
+
+        print(f"Converted {file} to {output_file}")
